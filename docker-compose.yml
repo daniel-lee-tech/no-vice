@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  ui:
+    container_name: ui
+    build: ./ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+
+  server:
+    container_name: server
+    build: ./server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    volumes:
+      - ./db:/data/db
+    ports:
+      - "27017:27017"
